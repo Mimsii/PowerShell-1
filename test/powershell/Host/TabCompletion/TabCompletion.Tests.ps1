@@ -672,6 +672,11 @@ ConstructorTestClass(int i, bool b)
         $res.CompletionMatches[0].CompletionText | Should -BeExactly Cat
     }
 
+    It 'Should complete cim ETS member added by shortname' -Skip:(!$IsWindows -or (Test-IsWinServer2012R2) -or (Test-IsWindows2016)) {
+        $res = TabExpansion2 -inputScript '(Get-NetFirewallRule).Nam'
+        $res.CompletionMatches[0].CompletionText | Should -BeExactly 'Name'
+    }
+
     It 'Should complete variable assigned with Data statement' {
         $TestString = 'data MyDataVar {"Hello"};$MyDatav'
         $res = TabExpansion2 -inputScript $TestString
